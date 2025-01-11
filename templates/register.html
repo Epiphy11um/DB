@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+</head>
+<body>
+    <div class="ui container">
+        <!-- Header -->
+        <div class="ui inverted segment">
+            <h1 class="ui inverted header">Register for the Band Portal</h1>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="ui centered grid">
+            <div class="column">
+                <div class="ui segment">
+                    <form class="ui form" method="post" action="/register">
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" name="username" placeholder="Enter your username" required>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="field">
+                            <label>Confirm Password</label>
+                            <input type="password" name="password2" placeholder="Confirm your password" required>
+                        </div>
+                        <div class="field">
+                            <label>User Type</label>
+                            <select class="ui dropdown" name="userType" required>
+                                <option value="">请选择用户类型</option>
+                                <option value="musician">乐队用户</option>
+                                <option value="fan">歌迷用户</option>
+                                <option value="manager">管理员</option>
+                            </select>
+                        </div>
+                        <button class="ui primary button" type="submit">Register</button>
+                        <a href="/" class="ui button">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="ui inverted vertical footer segment">
+            <div class="ui container">
+                <p>© 2025 Band Portal. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Initialize Semantic UI dropdown
+        document.addEventListener("DOMContentLoaded", function() {
+            $('.ui.dropdown').dropdown();
+        });
+    </script>
+</body>
+</html>
