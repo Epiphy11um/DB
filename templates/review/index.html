@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+
+{% block title %}乐评列表{% endblock %}
+
+{% block body %}
+
+<h1 class="ui centered header">
+    乐评列表
+</h1>
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>曲目</th>
+            <th>评分</th>
+            <th>评分者</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in reviews %}
+        <tr>
+            <td><a href="{{ url_for('song.details', id=item.SongID) }}">{{ item.SongName }}</a></td>
+            <td><a href="{{ url_for('review.details', song_id=item.SongID, user_id=item.UserID) }}">{{ item.Rating }}</a></td>
+            <td>{{ item.UserName }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends '_base.html' %}
+
+{% block title %}{{ review.UserName }} 对 {{ review.SongName }} 的点评{% endblock %}
+
+{% block body %}
+
+<div class="ui segment">
+
+    
+    <h1 class="ui header centered">
+        {{ review.UserName }} 对 <a href="{{ url_for('song.details', id=review.SongID) }}">{{ review.SongName }}</a> 的点评
+    </h1>
+
+    <p style="text-align: center">{{ review.Rating }} 分</p>
+
+    <p>
+        {{ review.Comment }}
+    </p>
+
+    {% if editable %}
+    <a href="{{ url_for('review.edit', song_id=review.SongID) }}" class="ui primary button">
+        <i class="edit icon"></i>
+        编辑乐评
+    </a>
+    {% endif %}
+    
+</div>
+{% endblock %}

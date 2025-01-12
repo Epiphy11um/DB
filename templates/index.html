@@ -1,81 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Band User Homepage</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
-</head>
-<body>
-    <div class="ui container">
-        <!-- Header -->
-        <div class="ui inverted segment">
-            <a float="right" href="/logout" class="ui inverted button">Logout</a>
-            <h1 class="ui inverted header">Welcome to the Band User Homepage</h1>
-        </div>
-        
-        <!-- Navigation Menu -->
-        <div class="ui menu">
-            <a class="item">Home</a>
-            <a class="item">About Us</a>
-            <a class="item">Events</a>
-            <a class="item">Gallery</a>
-            <a class="item">Contact</a>
-            <a href="/bands" class="item">Register </a>
-        </div>
-        <form class="ui form"  action="/login" method="post">
-        </form>
-        <!-- Main Section -->
-        <div class="ui grid">
-            <div class="eight wide column">
-                <h2 class="ui header">About the Band</h2>
-                <p>
-                    We are a passionate group of musicians bringing music to life. Explore our events, check out our latest albums, and learn more about us!
-                </p>
-                <button class="ui primary button">Learn More</button>
-            </div>
+{% extends '_base.html' %}
 
-            <div class="eight wide column">
-                <img class="ui rounded image" src="https://via.placeholder.com/400x300" alt="Band Image">
-            </div>
+{% block title %}乐队列表{% endblock %}
+
+{% block body %}
+<div class="ui container">
+    <!-- Header -->
+    <div class="ui inverted segment">
+        <h1 class="ui inverted header">Welcome to the Band User Homepage</h1>
+    </div>
+    <!-- Main Section -->
+    <div class="ui grid">
+        <div class="eight wide column">
+            <h1 class="ui header">About the Band</h1>
+            <p>
+                We are a passionate group of musicians bringing music to life. Explore our events, check out our latest
+                albums, and learn more about us!
+            </p>
+            <button class="ui primary button">Learn More</button>
         </div>
 
-        <!-- Upcoming Events -->
-        <div class="ui segment">
-            <h2 class="ui header">Upcoming Events</h2>
-            <div class="ui divided items">
-                <div class="item">
-                    <div class="content">
-                        <h3 class="header">Live Concert</h3>
-                        <div class="meta">
-                            <span>Date: January 20, 2025</span>
-                        </div>
-                        <div class="description">
-                            <p>Join us for a thrilling live concert at the city auditorium.</p>
-                        </div>
+        <div class="eight wide column">
+            <img class="ui rounded image" src="https://via.placeholder.com/400x300" alt="Band Image">
+        </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="ui segment">
+        <h1 class="ui header">Upcoming Events</h1>
+        <div class="ui divided items">
+            <div class="item">
+                <div class="content">
+                    <h3 class="header">Live Concert</h3>
+                    <div class="meta">
+                        <span>Date: January 20, 2025</span>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="content">
-                        <h3 class="header">Workshop</h3>
-                        <div class="meta">
-                            <span>Date: February 15, 2025</span>
-                        </div>
-                        <div class="description">
-                            <p>Learn the secrets of music composition in our exclusive workshop.</p>
-                        </div>
+                    <div class="description">
+                        <p>Join us for a thrilling live concert at the city auditorium.</p>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="ui inverted vertical footer segment">
-            <div class="ui container">
-                <p>© 2025 Band Name. All Rights Reserved.</p>
+            <div class="item">
+                <div class="content">
+                    <h3 class="header">Workshop</h3>
+                    <div class="meta">
+                        <span>Date: February 15, 2025</span>
+                    </div>
+                    <div class="description">
+                        <p>Learn the secrets of music composition in our exclusive workshop.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

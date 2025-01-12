@@ -1,0 +1,61 @@
+{% extends '_base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="ui container">
+    <!-- Header -->
+    <div class="ui inverted segment">
+        <h1 class="ui inverted header">Register for the Band Portal</h1>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="ui centered grid">
+        <div class="eight wide column">
+            <div class="ui segment">
+                {% if error %}
+                <div class="ui error message">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Error
+                    </div>
+                    <ul class="list">
+                        <li>{{ error }}</li>
+                    </ul>
+                </div>
+                {% endif %}
+                <form class="ui form" method="post" action="">
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="field">
+                        <label>Confirm Password</label>
+                        <input type="password" name="password2" placeholder="Confirm your password" required>
+                    </div>
+                    <div class="field">
+                        <label>User Type</label>
+                        <select class="ui dropdown" name="userType" required>
+                            <option value="">请选择用户类型</option>
+                            <option value="musician">乐队用户</option>
+                            <option value="fan">歌迷用户</option>
+                            <option value="manager">管理员</option>
+                        </select>
+                    </div>
+                    <button class="ui fluid primary button" type="submit">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Initialize Semantic UI dropdown
+    document.addEventListener("DOMContentLoaded", function () {
+        $('.ui.dropdown').dropdown();
+    });
+</script>
+{% endblock %}

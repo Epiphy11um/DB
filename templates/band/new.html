@@ -1,0 +1,30 @@
+{% extends '_base.html' %}
+
+{% block title %}新建乐队{% endblock %}
+
+{% block body %}
+<h1 class="ui centered header">
+    新建乐队
+</h1>
+
+<div class="ui centered grid">
+    <div class="eight wide column">
+        <div class="ui segment">
+
+            <form action="" method="post" class="ui form">
+                <div class="field">
+                    <label>乐队名</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="field">
+                    <label>描述</label>
+                    <input type="text" name="description" required>
+                </div>
+                <button class="ui primary button">
+                    提交
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

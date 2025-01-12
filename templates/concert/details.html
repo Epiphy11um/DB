@@ -1,0 +1,28 @@
+{% extends '_base.html' %}
+
+{% block title %}演出详情 - {{ concert.ConcertName }}{% endblock %}
+
+{% block body %}
+<h1 class="ui centered header">
+    演出详情 - {{ concert.ConcertName }}
+</h1>
+<div class="ui segment">
+
+    <p>ID: {{ concert.ConcertID }}</p>
+    <p>演出名: {{ concert.ConcertName }}</p>
+    <p>参演乐队: <a href="{{ url_for('band.details', id=band.BandID) }}">{{ band.BandName }}</a></p>
+    <p>演出地点: {{ concert.Location }}</p>
+    <p>演出时间: {{ concert.ConcertDate }}</p>
+
+    {% if editable %}
+    <a class="ui primary button" href="{{ url_for('concert.edit', id=concert.ConcertID) }}">
+        <i class="edit icon"></i>
+        编辑信息
+    </a>
+    <a class="ui red button" href="{{ url_for('concert.delete', id=concert.ConcertID) }}">
+        <i class="ban icon"></i>
+        删除演出
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

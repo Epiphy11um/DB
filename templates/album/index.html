@@ -1,0 +1,68 @@
+{% extends '_base.html' %}
+
+{% block title %}专辑列表{% endblock %}
+
+{% block body %}
+
+<h1 class="ui centered header">
+    专辑列表
+</h1>
+
+<div style="display: flex; flex-direction: row; justify-content: flex-end;">
+    <a class="ui primary button" href="{{ url_for('album.new') }}">
+        <i class="icon plus"></i>
+        新建专辑
+    </a>
+</div>
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>专辑名</th>
+            <th>乐队</th>
+            <th>曲目数</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for album in albums %}
+        <tr>
+            <td><a href="{{ url_for('album.details', id=album.AlbumID) }}">{{ album.AlbumName }}</a></td>
+            <td>{{ album.BandName }}</td>
+            <td>{{ album.count }}</td>
+            
+            <td>
+                <button class="ui icon button like-button" data-album-id="{{ album.AlbumID }}"
+                    data-liked="{{ album.liked }}">
+                    {% if album.liked %}
+                    <i class="heart icon"></i>
+                    {% else %}
+                    <i class="heart outline icon"></i>
+                    {% endif %}
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $('.like-button').click(function () {
+        $(this).addClass('disabled');
+        const bandId = $(this).data('album-id');
+        fetch('{{ url_for("album.like", id=114514)}}'.replace('114514', bandId), {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                $(this).removeClass('disabled');
+                if (data.liked === false) {
+                    $(this).find('i.icon').addClass('outline');
+                }
+                else {
+                    $(this).find('i.icon').removeClass('outline');
+                }
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends '_base.html' %}
+
+{% block title %}乐队列表{% endblock %}
+
+{% block body %}
+<h1 class="ui centered header">
+    乐队列表
+</h1>
+
+<div style="display: flex; flex-direction: row; justify-content: flex-end;">
+    <a class="ui primary button" href="{{ url_for('band.new') }}">
+        <i class="icon plus"></i>
+        创建乐队
+    </a>
+</div>
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>乐队名</th>
+            <th>乐队简介</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for band in bands %}
+        <tr>
+            <td><a href="{{ url_for('band.details', id=band.BandID) }}">{{ band.BandName }}</a></td>
+            <td>{{ band.BandDescription }}</td>
+            <td>
+                <button class="ui icon button like-button" data-band-id="{{ band.BandID }}"
+                    data-liked="{{ band.liked }}">
+                    {% if band.liked %}
+                    <i class="heart icon"></i>
+                    {% else %}
+                    <i class="heart outline icon"></i>
+                    {% endif %}
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $('.like-button').click(function () {
+        $(this).addClass('disabled');
+        const bandId = $(this).data('band-id');
+        fetch('{{ url_for("band.like", id=114514)}}'.replace('114514', bandId), {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                $(this).removeClass('disabled');
+                if (data.liked === false) {
+                    $(this).find('i.icon').addClass('outline');
+                }
+                else {
+                    $(this).find('i.icon').removeClass('outline');
+                }
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends '_base.html' %}
+
+{% block title %}新建专辑{% endblock %}
+
+{% block body %}
+<div class="ui segment">
+
+    <div class="ui centered grid">
+        <div class="ten wide column">
+            <form class="ui form" id="album-detail">
+                <div class="field">
+                    <label>专辑名</label>
+                    <input type="text" name="name" required id="album-name">
+                </div>
+                <div class="field">
+                    <label>描述</label>
+                    <input type="text" name="description" id="album-desc">
+                </div>
+                <div class="field">
+                    <label>归属乐队</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="band_id" required id="album-band-id">
+                        <i class="dropdown icon"></i>
+                        <div class="text"></div>
+                        <div class="menu">
+                            {% for band in bands %}
+                            <div class="item" data-value="{{ band.BandID }}">{{ band.BandName }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="ui divider"></div>
+    <div class="ui centered divided grid">
+        <div class="six wide column">
+            <button class="ui primary button" onclick="add()">
+                <i class="plus icon"></i>
+                添加歌曲
+            </button>
+
+            <div class="ui secondary vertical fluid menu" id="song-list">
+
+            </div>
+        </div>
+
+        <div class="ten wide column">
+            <form class="ui form" id="song-detail">
+                <div class="field">
+                    <label>曲目标题</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="field">
+                    <label>原作者</label>
+                    <input type="text" name="originalAuthor">
+                </div>
+                <div class="field">
+                    <label>曲风</label>
+                    <input type="text" name="genre">
+                </div>
+
+                <button class="ui primary button" type="button" id="button-apply">
+                    确认更改
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <button class="ui primary fluid button" id="button-submit">
+        <i class="check icon"></i> 提交
+    </button>
+</div>
+
+
+<script>
+    $(function () {
+        $('.ui.dropdown').dropdown();
+    });
+    let selected = null;
+    const songs = [];
+
+    function sync() {
+        $('#song-list').html('');
+
+        songs.forEach((song, index) => {
+            const element = $(`
+            <a class="${index === selected ? 'active ' : ''}item">
+                <h3 class="ui header">${song.name}</h3>
+                <p class="ui secondary">by ${song.originalAuthor}</p>
+                <button class="ui red icon button">
+                    <i class="ban icon"></i>
+                </button>
+            </a>`);
+            element.children('button').click(() => remove(index));
+            element.click(() => select(index));
+            element.appendTo('#song-list');
+        });
+
+        if (selected === null) {
+            $('#song-detail').find('.field').addClass('disabled');
+        }
+        else {
+            $('#song-detail').find('.field').removeClass('disabled');
+        }
+    }
+
+    function remove(index) {
+        selected = null;
+        songs.splice(index, 1);
+        sync();
+    }
+
+    function select(index) {
+        selected = index;
+        const form = $('#song-detail');
+
+        form.find('input[name="name"]').val(songs[selected].name);
+        form.find('input[name="genre"]').val(songs[selected].genre);
+        form.find('input[name="originalAuthor"]').val(songs[selected].originalAuthor);
+
+        sync();
+    }
+
+    function add() {
+        songs.push({
+            name: 'Unnamed',
+            genre: 'Genre',
+            originalAuthor: 'Artist'
+        });
+        select(songs.length - 1);
+    }
+
+    function apply(event) {
+        console.log(event.target);
+        const value = Object.fromEntries(new FormData($(event.target).parent('form').get(0)));
+
+        console.log(songs[selected]);
+        songs[selected].name = value.name;
+        songs[selected].genre = value.genre;
+        songs[selected].originalAuthor = value.originalAuthor;
+        console.log(songs[selected]);
+
+        selected = null;
+        sync();
+    }
+
+    $('#button-apply').click(apply);
+    $('#button-submit').click(event => {
+        event.preventDefault();
+        const data = {
+            name: $('#album-name').val(),
+            desc: $('#album-desc').val(),
+            bandId: $('#album-band-id').val(),
+            songs
+        };
+
+        fetch('{{ url_for("album.new") }}', {
+            method: 'post',
+            redirect: 'follow',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+        });
+
+    })
+    $(function () { sync(); });
+</script>
+
+{% endblock %}

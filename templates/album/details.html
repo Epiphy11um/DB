@@ -1,0 +1,32 @@
+{% extends '_base.html' %}
+
+{% block title %}专辑详情 - {{ album.AlbumName }}{% endblock %}
+
+{% block body %}
+<div class="ui segment">
+    <p>专辑ID: {{ album.AlbumID }}</p>
+    <p>专辑名: {{ album.AlbumName }}</p>
+    <p>专辑简介: {{ album.AlbumDescription }}</p>
+    <p>曲目列表: </p>
+
+    <div class="ui bulleted list">
+        {% for song in songs %}
+
+        <div class="item">
+            {{ song.Order }}. {{ song.OriginalAuthor }} - {{ song.SongName }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <p>喜欢 {{ album.AlbumName }} 的用户：</p>
+    <div class="ui bulleted list">
+        {% for user in liked_users %}
+        <div class="item">
+            {{ user.UserName }}
+        </div>
+        {% else %}
+        <div class="item"><i>暂无</i></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

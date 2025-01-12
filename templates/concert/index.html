@@ -1,0 +1,39 @@
+{% extends '_base.html' %}
+
+{% block title %}演出列表{% endblock %}
+
+{% block body %}
+
+<h1 class="ui centered header">
+    演出列表
+</h1>
+
+<div style="display: flex; flex-direction: row; justify-content: flex-end;">
+    <a class="ui primary button" href="{{ url_for('concert.new') }}">
+        <i class="icon plus"></i>
+        新建演出
+    </a>
+</div>
+
+<table class="ui celled table">
+    <thead>
+        <tr>
+            <th>演出名</th>
+            <th>演出时间</th>
+            <th>参演乐队</th>
+            <th>演出地点</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in concerts %}
+        <tr>
+            <td><a href="{{ url_for('concert.details', id=item.ConcertID) }}">{{ item.ConcertName }}</a></td>
+            <td>{{ item.ConcertDate }}</td>
+            <td><a href="{{ url_for('band.details', id=item.BandID) }}">{{ item.BandName }}</a></td>
+            <td>{{ item.Location }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends '_base.html' %}
+
+{% block title %}曲目详情 - {{ song.SongName }}{% endblock %}
+
+{% block body %}
+<div class="ui segment">
+    <h1 class="ui centered header">
+        曲目详情 - {{ song.SongName }}
+    </h1>
+
+    <p>ID: {{ song.SongID }}</p>
+    <p>标题: {{ song.SongName }}</p>
+    <p>原作: {{ song.OriginalAuthor }}</p>
+    <p>曲风: {{ song.Genre }}</p>
+
+    {% if song.AlbumID %}
+    <p>专辑: <a href="{{ url_for('album.details', id=song.AlbumID) }}">{{ song.AlbumName }}</a></p>
+    {% endif %}
+
+    <p>喜欢 {{ song.SongName }} 的用户：</p>
+    <div class="ui bulleted list">
+        {% for user in liked_users %}
+        <div class="item">
+            {{ user.UserName }}
+        </div>
+        {% else %}
+        <div class="item"><i>暂无</i></div>
+        {% endfor %}
+    </div>
+
+    <p>
+        评分：
+        {% if rating is none %}
+        <i>null</i>
+        {% else %}
+        {{ rating.rating }}, 共 {{ rating.count }} 人评分
+        {% endif %}
+    </p>
+
+    {% if user_review is none %}
+    <a class="ui primary button" href="{{ url_for('review.new', song_id=song.SongID) }}">
+        <i class="edit icon"></i>
+        撰写乐评
+    </a>
+    {% else %}
+    <p>您的评价：{{ user_review.Rating }} {{ user_review.Comment }}</p>
+    {% endif %}
+
+    <a class="ui primary button" href="{{ url_for('review.list', song_id=song.SongID) }}">
+        所有乐评
+    </a>
+    {% if editable %}
+    <a class="ui primary button" href="{{ url_for('concert.edit', id=concert.ConcertID) }}">
+        <i class="edit icon"></i>
+        编辑信息
+    </a>
+    <a class="ui red button" href="{{ url_for('concert.delete', id=concert.ConcertID) }}">
+        <i class="ban icon"></i>
+        删除
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends '_base.html' %}
+
+{% block title %}新建演出{% endblock %}
+
+{% block body %}
+
+<h1 class="ui centered header">
+    新建演出
+</h1>
+
+<div class="ui centered grid">
+    <div class="eight wide column">
+        <div class="ui segment">
+
+            <form action="" method="post" class="ui form">
+                <div class="field">
+                    <label>演出名</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="field">
+                    <label>参演乐队</label>
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="band_id" required>
+                        <i class="dropdown icon"></i>
+                        <div class="text"></div>
+                        <div class="menu">
+                            {% for band in bands %}
+                            <div class="item" data-value="{{ band.BandID }}">{{ band.BandName }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>演出地点</label>
+                    <input type="text" name="location" required>
+                </div>
+                <div class="field">
+                    <label>演出时间</label>
+                    <input type="datetime-local" name="date" required>
+                </div>
+                <button class="ui primary button">
+                    提交
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.ui.dropdown').dropdown();
+    });
+</script>
+{% endblock %}

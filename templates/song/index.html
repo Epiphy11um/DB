@@ -1,0 +1,64 @@
+{% extends '_base.html' %}
+
+{% block title %}曲目列表{% endblock %}
+
+{% block body %}
+
+<div class="ui segment">
+    <h1 class="ui centered header">
+        曲目列表
+    </h1>
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>曲名</th>
+                <th>原作</th>
+                <th>风格</th>
+                <th>所属专辑</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for song in songs %}
+            <tr>
+                <td><a href="{{ url_for('song.details', id=song.SongID) }}">{{ song.SongName }}</a></td>
+                <td>{{ song.OriginalAuthor }}</td>
+                <td>{{ song.Genre }}</td>
+                <td><a href="{{ url_for('album.details', id=song.AlbumID) }}">{{ song.AlbumName }}</a></td>
+
+                <td>
+                    <button class="ui icon button like-button" data-song-id="{{ song.SongID }}"
+                        data-liked="{{ song.liked }}">
+                        {% if song.liked %}
+                        <i class="heart icon"></i>
+                        {% else %}
+                        <i class="heart outline icon"></i>
+                        {% endif %}
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $('.like-button').click(function () {
+        $(this).addClass('disabled');
+        const songId = $(this).data('song-id');
+        fetch('{{ url_for("song.like", id=114514)}}'.replace('114514', songId), {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                $(this).removeClass('disabled');
+                if (data.liked === false) {
+                    $(this).find('i.icon').addClass('outline');
+                }
+                else {
+                    $(this).find('i.icon').removeClass('outline');
+                }
+            });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+</head>
+
+<body>
+    <div class="ui top attached menu">
+        <a class="item" href="/"><i class="icon home"></i>Home</a>
+        <a class="item" href="{{ url_for('concert.index') }}"><i class="music icon"></i>Events</a>
+        <a class="item" href="{{ url_for('album.index') }}"><i class="list icon"></i>Albums</a>
+        <a class="item" href="{{ url_for('song.index') }}"><i class="music icon"></i>Songs</a>
+        <a class="item" href="{{ url_for('band.index') }}"><i class="icon">💩</i>Bands</a>
+        <a class="item" href="{{ url_for('review.index') }}"><i class="icon">💩</i>Reviews</a>
+        <a class="item disabled" style="flex-grow: 1"></a>
+        <div class="right menu">
+            {% if session.userid %}
+            <a href="{{ url_for('auth.logout') }}" class="item"><i class="sign out icon"></i>Logout</a>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}" class="item"><i class="sign in icon"></i>Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        .ui.top.attached.menu>.item,
+        .ui.top.attached.menu>.menu>.item {
+            flex-direction: column;
+        }
+    </style>
+
+    <div class="ui container">
+        {% block body %}{% endblock %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+{% extends '_base.html' %}
+
+{% block title %}乐队详情 - {{ band.BandName }}{% endblock %}
+
+{% block body %}
+<h1 class="ui centered header">
+    乐队详情 - {{ band.BandName }}
+</h1>
+<div class="ui segment">
+
+    <p>ID: {{ band.BandID }}</p>
+    <p>乐队名: {{ band.BandName }}</p>
+    <p>描述: {{ band.BandDescription }}</p>
+    <p>创建于: {{ band.FormationDate }}</p>
+
+    <p>成员：</p>
+
+    <div class="ui bulleted list">
+        {% for user in members %}
+        <div class="item">{{ user.UserName }}</div>
+        {% endfor %}
+    </div>
+
+    <p>演出列表：</p>
+    <div class="ui bulleted list">
+        {% for item in concerts %}
+        <div class="item"><a href="{{ url_for('concert.details', id=item.ConcertID) }}">{{ item.ConcertName }}</a></div>
+        {% else %}
+        <div class="item"><i>暂无</i></div>
+        {% endfor %}
+
+    </div>
+
+    <p>喜欢 {{ band.BandName }} 的用户：</p>
+    <div class="ui bulleted list">
+        {% for user in liked_users %}
+        <div class="item">
+            {{ user.UserName }}
+        </div>
+        {% else %}
+        <div class="item"><i>暂无</i></div>
+        {% endfor %}
+    </div>
+
+    {% if editable %}
+    <a class="ui primary button" href="{{ url_for('band.edit', id=band.BandID) }}">
+        <i class="icon edit"></i>
+        编辑信息
+    </a>
+    {% endif %}
+
+</div>
+{% endblock %}
