@@ -10,5 +10,5 @@ $ cp template.env .env
 $ vim .env          # fill in environment variables
 $ poetry install
 $ poetry shell
-$ python app.py
+$ flask run
 ```
