@@ -181,6 +181,44 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="twelve wide column">
+            <div class="ui accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    评分最高的专辑
+                </div>
+                <div class="content">
+
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>专辑名</th>
+                                <th>乐队</th>
+                                <th>曲目数</th>
+                                <th>平均评分</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for album in top_albums %}
+                            <tr>
+                                <td><a href="{{ url_for('album.details', id=album.AlbumID) }}">{{ album.AlbumName }}</a></td>
+                                <td><a href="{{ url_for('band.details', id=album.BandID) }}">{{ album.BandName }}</a></td>
+                                <td>{{ album.count }}</td>
+                                <td>{{ album.avg_rating }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>暂无</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>

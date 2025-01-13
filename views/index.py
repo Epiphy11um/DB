@@ -27,4 +27,11 @@ def index():
                   inner join Participation on Participation.ConcertID = Concert.ConcertID
                   inner join Band on Concert.BandID = Band.BandID
                   where UserID = {session['userid']}''')
-    return render_template('index.html', liked_albums=liked_albums, liked_songs=liked_songs, liked_bands=liked_bands, participation=part)
+    top_albums = invoke(f'''select
+                        (select avg(Rating) from Review where Review.AlbumID = Album.AlbumID) as avg_rating,
+                        (select count(*) from Song where Song.AlbumID = Album.AlbumID) as `count`,
+                        Album.*, Band.* from Album
+                        inner join Band on Album.BandID = Band.BandID
+                        order by avg_rating desc
+                        limit 8''')
+    return render_template('index.html', liked_albums=liked_albums, liked_songs=liked_songs, liked_bands=liked_bands, participation=part, top_albums=top_albums)
