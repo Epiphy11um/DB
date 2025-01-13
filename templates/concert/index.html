@@ -32,6 +32,15 @@
             <td>{{ item.ConcertDate }}</td>
             <td><a href="{{ url_for('band.details', id=item.BandID) }}">{{ item.BandName }}</a></td>
             <td>{{ item.Location }}</td>
+            <td>
+                {% if item.participated %}
+                <i>您已参加</i>
+                {% else %}
+                <a href="{{ url_for('concert.join', id=item.ConcertID) }}" class="ui icon button">
+                    <i class="plus icon"></i>
+                </a>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

@@ -14,6 +14,15 @@
     <p>演出地点: {{ concert.Location }}</p>
     <p>演出时间: {{ concert.ConcertDate }}</p>
 
+    {% if participation is none %}
+    <a class="ui button" href="{{ url_for('concert.join', id=concert.ConcertID) }}">
+        参加演出
+    </a>
+    {% else %}
+    <p>您的票号: {{ participation.TicketNumber }}</p>
+    {% endif %}
+
+
     {% if editable %}
     <a class="ui primary button" href="{{ url_for('concert.edit', id=concert.ConcertID) }}">
         <i class="edit icon"></i>
