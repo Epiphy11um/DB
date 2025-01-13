@@ -3,54 +3,134 @@
 {% block title %}乐队列表{% endblock %}
 
 {% block body %}
-<div class="ui container">
-    <!-- Header -->
-    <div class="ui inverted segment">
-        <h1 class="ui inverted header">Welcome to the Band User Homepage</h1>
-    </div>
-    <!-- Main Section -->
-    <div class="ui grid">
+<div class="ui inverted segment">
+    <h1 class="ui inverted header">Welcome to the Band User Homepage</h1>
+</div>
+<div class="ui centered grid">
+    <div class="row">
         <div class="eight wide column">
-            <h1 class="ui header">About the Band</h1>
-            <p>
-                We are a passionate group of musicians bringing music to life. Explore our events, check out our latest
-                albums, and learn more about us!
-            </p>
-            <button class="ui primary button">Learn More</button>
-        </div>
-
-        <div class="eight wide column">
-            <img class="ui rounded image" src="https://via.placeholder.com/400x300" alt="Band Image">
+            <h1 class="ui header">喜欢的乐队</h1>
+            <table class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>乐队名</th>
+                        <th>乐队简介</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for band in liked_bands %}
+                    <tr>
+                        <td><a href="{{ url_for('band.details', id=band.BandID) }}">{{ band.BandName }}</a></td>
+                        <td>{{ band.BandDescription }}</td>
+                        <td>
+                            <button class="ui icon button like-button" data-item-type="band"
+                                data-item-id="{{ band.BandID }}" data-liked="1">
+                                <i class="heart icon"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>暂无</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Upcoming Events -->
-    <div class="ui segment">
-        <h1 class="ui header">Upcoming Events</h1>
-        <div class="ui divided items">
-            <div class="item">
-                <div class="content">
-                    <h3 class="header">Live Concert</h3>
-                    <div class="meta">
-                        <span>Date: January 20, 2025</span>
-                    </div>
-                    <div class="description">
-                        <p>Join us for a thrilling live concert at the city auditorium.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="content">
-                    <h3 class="header">Workshop</h3>
-                    <div class="meta">
-                        <span>Date: February 15, 2025</span>
-                    </div>
-                    <div class="description">
-                        <p>Learn the secrets of music composition in our exclusive workshop.</p>
-                    </div>
-                </div>
-            </div>
+    <div class="row">
+        <div class="eight wide column">
+            <h1 class="ui header">喜欢的专辑</h1>
+
+            <table class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>专辑名</th>
+                        <th>乐队</th>
+                        <th>曲目数</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for album in liked_albums %}
+                    <tr>
+                        <td><a href="{{ url_for('album.details', id=album.AlbumID) }}">{{ album.AlbumName }}</a></td>
+                        <td>{{ album.BandName }}</td>
+                        <td>{{ album.count }}</td>
+
+                        <td>
+                            <button class="ui icon button like-button" data-item-type="album"
+                                data-item-id="{{ album.AlbumID }}" data-liked="1">
+                                <i class="heart icon"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>暂无</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="eight wide column">
+            <h1 class="ui header">喜欢的歌曲</h1>
+            <table class="ui celled table">
+                <thead>
+                    <tr>
+                        <th>曲名</th>
+                        <th>原作</th>
+                        <th>风格</th>
+                        <th>所属专辑</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song in liked_songs %}
+                    <tr>
+                        <td><a href="{{ url_for('song.details', id=song.SongID) }}">{{ song.SongName }}</a></td>
+                        <td>{{ song.OriginalAuthor }}</td>
+                        <td>{{ song.Genre }}</td>
+                        <td><a href="{{ url_for('album.details', id=song.AlbumID) }}">{{ song.AlbumName }}</a></td>
+
+                        <td>
+                            <button class="ui icon button like-button" data-item-type="song"
+                                data-item-id="{{ song.SongID }}" data-liked="1">
+                                <i class="heart icon"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+<script>
+    $('.like-button').click(function () {
+        $(this).addClass('disabled');
+        const itemType = $(this).data('item-type');
+        const itemId = $(this).data('item-id')
+        fetch(`/${itemType}/${itemId}/like`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(data => {
+                $(this).removeClass('disabled');
+                if (data.liked === false) {
+                    $(this).find('i.icon').addClass('outline');
+                }
+                else {
+                    $(this).find('i.icon').removeClass('outline');
+                }
+            });
+    });
+</script>
+
 {% endblock %}
