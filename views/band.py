@@ -40,12 +40,12 @@ def details(id: int):
                      )''').fetchall()
     concerts = invoke(f'select * from Concert where BandID = {id}').fetchall()
     rel = invoke(f'select Role from _UserToBand where UserID = {session['userid']} and BandID = {id}').fetchone()
-    liked_users = invoke(f'''select * from User user where exists (
-                         select * from LikeBand where UserID = user.UserID and BandID = {id}
-                         )''').fetchall()
+    liked_count = invoke(f'select count(*) as `count` from LikeBand where BandID = {id}').fetchone()
+    if liked_count is None:
+        liked_count = { 'count': 0 }
     editable = (rel is not None)
 
-    return render_template('/band/details.html', band=band, members=members, concerts=concerts, liked_users=liked_users, editable=editable)
+    return render_template('/band/details.html', band=band, members=members, concerts=concerts, liked_count=liked_count, editable=editable)
 
 @band_bp.route('/band/<int:id>/like', methods=['POST'])
 def like(id: int):
