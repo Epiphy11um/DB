@@ -21,6 +21,7 @@
         <a class="item disabled" style="flex-grow: 1"></a>
         <div class="right menu">
             {% if session.userid %}
+            <a href="{{ url_for('user.details', id=session.userid) }}" class="item"><i class="user icon"></i>My profile</a>
             <a href="{{ url_for('auth.logout') }}" class="item"><i class="sign out icon"></i>Logout</a>
             {% else %}
             <a href="{{ url_for('auth.login') }}" class="item"><i class="sign in icon"></i>Login</a>

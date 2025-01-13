@@ -1,0 +1,23 @@
+{% extends '_base.html' %}
+
+{% block title %}用户信息 - {{ user.UserName }}{% endblock %}
+
+{% block body %}
+
+<div class="ui segment">
+    <p>用户ID: {{ user.UserID }}</p>
+    <p>用户名: {{ user.UserName }}</p>
+    <p>真名: {{ user.RealName }}</p>
+    <p>年龄: {{ user.Age }}</p>
+    <p>职业: {{ user.Job }}</p>
+    <p>教育水平: {{ user.EducationLevel }}</p>
+
+    {% if user.UserID == session.userid %}
+    <a class="ui primary button" href="{{ url_for('user.edit', id=user.UserID) }}">
+        <i class="icon edit"></i>
+        编辑信息
+    </a>
+    {% endif %}
+</div>
+
+{% endblock %}

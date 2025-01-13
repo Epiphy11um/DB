@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, session
 
 from views.index import index_bp
 from views.auth import auth_bp
+from views.user import user_bp
 from views.concert import concert_bp
 from views.album import album_bp
 from views.band import band_bp
@@ -13,6 +14,7 @@ app.secret_key = '555555'
 
 app.register_blueprint(index_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(user_bp)
 app.register_blueprint(concert_bp)
 app.register_blueprint(album_bp)
 app.register_blueprint(band_bp)

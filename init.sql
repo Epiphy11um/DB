@@ -2,6 +2,10 @@ CREATE TABLE User (
     `UserID` INT PRIMARY KEY AUTO_INCREMENT,
     `UserName` VARCHAR(256) NOT NULL,
     `Password` VARCHAR(256) NOT NULL,
+    `RealName` VARCHAR(64),
+    `Age` INT,
+    `Job` VARCHAR(32),
+    `EducationLevel` VARCHAR(32),
     `Type` VARCHAR(16) NOT NULL
 );
 

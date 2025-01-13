@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+
+{% block title %}修改用户信息 - {{ user.UserName }}{% endblock %}
+
+{% block body %}
+
+<div class="ui segment">
+    <p>用户ID: {{ user.UserID }}</p>
+    <p>用户名: {{ user.UserName }}</p>
+
+    <form class="ui form" action="" method="post">
+        <div class="field">
+            <label>真名</label>
+            <input type="text" name="real_name" value="{% if user.RealName is not none %}{{ user.RealName }}{% endif %}">
+        </div>
+        <div class="field">
+            <label>年龄</label>
+            <input type="number" min="0" max="998244353" name="age" value="{% if user.Age is not none %}{{ user.Age }}{% endif %}">
+        </div>
+        <div class="field">
+            <label>职业</label>
+            <input type="text" name="job" value="{% if user.Job is not none %}{{ user.Job }}{% endif %}">
+        </div>
+        <div class="field">
+            <label>教育水平</label>
+            <input type="text" name="edu" value="{% if user.EducationLevel is not none %}{{ user.EducationLevel }}{% endif %}">
+        </div>
+
+        <button class="ui primary button">
+            提交
+        </button>
+    </form>
+</div>
+
+{% endblock %}
