@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+
+{% block title %}添加歌曲 - {{ album.AlbumName }}{% endblock %}
+
+{% block body %}
+
+<div class="ui segment">
+    <div class="ui centered grid">
+        <div class="eight wide column">
+            <p>当前曲目：</p>
+
+            {% for song in songs %}
+            <p>{{ song.Order }}. {{ song.OriginalAuthor }} - {{ song.SongName }}</p>
+            {% endfor %}
+            <form class="ui form" action="" method="post">
+                <div class="field">
+                    <label>插入位置 (插入后，该位置的歌曲将排在新插入的歌曲之前)</label>
+                    <input type="number" name="pos" min="0" max="{{ songs | length }}" required>
+                </div>
+                <div class="field">
+                    <label>曲目标题</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="field">
+                    <label>原作者</label>
+                    <input type="text" name="originalAuthor">
+                </div>
+                <div class="field">
+                    <label>曲风</label>
+                    <input type="text" name="genre">
+                </div>
+
+                <button class="ui primary button">
+                    确认更改
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

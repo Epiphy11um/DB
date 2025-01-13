@@ -1,0 +1,32 @@
+{% extends '_base.html' %}
+
+{% block title %}编辑歌曲 - {{ song.SongName }}{% endblock %}
+
+{% block body %}
+
+<div class="ui segment">
+    <div class="ui centered grid">
+        <div class="eight wide column">
+            <form class="ui form" action="" method="post">
+                <div class="field">
+                    <label>曲目标题</label>
+                    <input type="text" name="name" value="{{ song.SongName }}">
+                </div>
+                <div class="field">
+                    <label>原作者</label>
+                    <input type="text" name="originalAuthor" value="{{ song.OriginalAuthor }}">
+                </div>
+                <div class="field">
+                    <label>曲风</label>
+                    <input type="text" name="genre" value="{{ song.Genre }}">
+                </div>
+
+                <button class="ui primary button">
+                    确认更改
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -13,7 +13,7 @@
         {% for song in songs %}
 
         <div class="item">
-            {{ song.Order }}. {{ song.OriginalAuthor }} - {{ song.SongName }}
+            <a href="{{ url_for('song.details', id=song.SongID) }}">{{ song.Order }}. {{ song.OriginalAuthor }} - {{ song.SongName }}</a>
         </div>
         {% endfor %}
     </div>
@@ -28,5 +28,12 @@
         <div class="item"><i>暂无</i></div>
         {% endfor %}
     </div>
+    
+    {% if editable %}
+    <a class="ui primary button" href="{{ url_for('album.add', id=album.AlbumID) }}">
+        <i class="plus icon"></i>
+        添加歌曲
+    </a>
+    {% endif %}
 </div>
 {% endblock %}

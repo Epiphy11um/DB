@@ -50,14 +50,16 @@
         所有乐评
     </a>
     {% if editable %}
-    <a class="ui primary button" href="{{ url_for('concert.edit', id=concert.ConcertID) }}">
+    <a class="ui primary button" href="{{ url_for('song.edit', id=song.SongID) }}">
         <i class="edit icon"></i>
         编辑信息
     </a>
-    <a class="ui red button" href="{{ url_for('concert.delete', id=concert.ConcertID) }}">
-        <i class="ban icon"></i>
-        删除
-    </a>
+    <form action="{{ url_for('song.delete', id=song.SongID) }}" method="post">
+        <button class="ui red button">
+            <i class="ban icon"></i>
+            删除
+        </button>
+    </form>
     {% endif %}
 </div>
 {% endblock %}

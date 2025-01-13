@@ -46,7 +46,7 @@ def new():
         genre = item['genre']
         author = item['originalAuthor']
         invoke_insertion(f'''insert into Song(SongName, OriginalAuthor, Genre, AlbumID, `Order`)
-                             values ("{name}", "{author}", "{genre}", {album_id}, {i})''')
+                             values ("{name}", "{author}", "{genre}", {album_id}, {i + 1})''')
         
     return redirect(url_for('album.details', id=album_id))
 
@@ -57,14 +57,15 @@ def details(id: int):
     if album is None:
         abort(404)
 
-    songs = invoke(f'select * from Song where AlbumID = {id}')
+    songs = invoke(f'select * from Song where AlbumID = {id} order by `Order` asc')
     liked_users = invoke(f'''select * from User user where exists (
                          select * from LikeAlbum where UserID = user.UserID and AlbumID = {id}
                          )''').fetchall()
+    rel = invoke(f'select * from _UserToBand where BandID = {album['BandID']} and UserID = {session['userid']}').fetchone()
+    
+    editable = rel is not None
 
-    print(album)
-
-    return render_template('/album/details.html', album=album, songs=songs, liked_users=liked_users)
+    return render_template('/album/details.html', album=album, songs=songs, liked_users=liked_users, editable=editable)
 
 @album_bp.route('/album/<int:id>/like', methods=['POST'])
 def like(id: int):
@@ -78,3 +79,21 @@ def like(id: int):
     else:
         invoke(f'delete from LikeAlbum where UserID = {userid} and AlbumID = {id}')
         return { 'liked': False }
+    
+@album_bp.route('/album/<int:id>/add', methods=['GET', 'POST'])
+def add(id: int):
+    if request.method == 'GET':
+        album = invoke(f'select * from Album where AlbumID = {id}')
+        songs = invoke(f'select * from Song where AlbumID = {id} order by `Order` asc').fetchall()
+        return render_template('/album/add.html', album=album, songs=songs)
+    
+    pos = request.form['pos']
+    name = request.form['name']
+    oa = request.form['originalAuthor']
+    genre = request.form['genre']
+
+    invoke(f'update Song set `Order` = `Order` + 1 where AlbumID = {id} and `Order` > {pos}')
+    invoke(f'''insert into Song(SongName, OriginalAuthor, Genre, AlbumID, `Order`)
+           values ("{name}", "{oa}", "{genre}", {id}, {pos + 1})''')
+    
+    return redirect(url_for('album.details', id=id))
