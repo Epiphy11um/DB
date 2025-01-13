@@ -19,7 +19,7 @@ def login():
     ans = invoke(f"select * from User where UserName = '{name}'")
     user = ans.fetchone()
     if user is None or user['Password'] != pwd:
-        return render_template('login.html', error="登录凭据无效")
+        return render_template('auth/login.html', error="登录凭据无效")
 
     session.update({
         'userid': user['UserID'],
