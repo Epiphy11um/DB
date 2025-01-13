@@ -78,15 +78,6 @@ CREATE TABLE Participation (
     FOREIGN KEY (UserID) REFERENCES User(UserID) -- 外键约束，引用歌迷表的UserID
 );
 
--- 演唱表
-CREATE TABLE Performance (
-    BandID INT, -- 外键：关联乐队表
-    SongID INT, -- 外键：关联歌曲表
-    PRIMARY KEY (BandID, SongID), -- 联合主键：乐队ID和歌曲ID的组合
-    FOREIGN KEY (BandID) REFERENCES Band(BandID), -- 外键约束，引用乐队表的BandID
-    FOREIGN KEY (SongID) REFERENCES Song(SongID) -- 外键约束，引用歌曲表的SongID
-);
-
 -- 喜欢A表
 CREATE TABLE LikeBand (
     UserID INT, -- 外键：关联歌迷表
