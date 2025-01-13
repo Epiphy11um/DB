@@ -63,7 +63,7 @@ def details(id: int):
                          )''').fetchall()
     rel = invoke(f'select * from _UserToBand where BandID = {album['BandID']} and UserID = {session['userid']}').fetchone()
     
-    editable = rel is not None
+    editable = rel is not None or session['usertype'] == 'manager'
 
     return render_template('/album/details.html', album=album, songs=songs, liked_users=liked_users, editable=editable)
 

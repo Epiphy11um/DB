@@ -44,13 +44,13 @@ def register():
     print(user)
 
     if pwd2 != pwd:
-        return render_template('register.html', error="密码不一致")
+        return render_template('/auth/register.html', error="密码不一致")
     
     if user is not None:
-        return render_template('register.html', error="该用户名已经存在")
+        return render_template('/auth/register.html', error="该用户名已经存在")
     
     if type == '':
-        return render_template('register.html', error="请选择用户类型")
+        return render_template('/auth/register.html', error="请选择用户类型")
     
     invoke(f"INSERT INTO User(UserName, Password, Type) VALUES ('{name}', '{pwd}', '{type}')")
     return redirect(url_for('auth.login'))

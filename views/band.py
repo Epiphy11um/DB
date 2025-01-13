@@ -43,7 +43,7 @@ def details(id: int):
     liked_count = invoke(f'select count(*) as `count` from LikeBand where BandID = {id}').fetchone()
     if liked_count is None:
         liked_count = { 'count': 0 }
-    editable = (rel is not None)
+    editable = (rel is not None) or session['usertype'] == 'manager'
 
     return render_template('/band/details.html', band=band, members=members, concerts=concerts, liked_count=liked_count, editable=editable)
 

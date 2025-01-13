@@ -41,7 +41,7 @@ def details(id: int):
     band = invoke(f'select * from Band where BandID = {concert['BandID']}').fetchone()
     rel = invoke(f'select * from _UserToBand where BandID = {concert['BandID']} and UserID = {session['userid']}').fetchone()
     part = invoke(f'select * from Participation where ConcertID = {id} and UserID = {session['userid']}').fetchone()
-    editable = (rel is not None)
+    editable = (rel is not None) or session['usertype'] == 'manager'
 
     return render_template('/concert/details.html', concert=concert, band=band, participation=part, editable=editable)
 

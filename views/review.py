@@ -21,7 +21,7 @@ def details(song_id: int, user_id: int):
     if review is None:
         abort(404)
 
-    editable = review['UserID'] == session['userid']
+    editable = review['UserID'] == session['userid'] or session['usertype'] == 'manager'
 
     return render_template('/review/details.html', review=review, editable=editable)
 
