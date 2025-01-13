@@ -44,8 +44,29 @@ def details(id: int):
     if liked_count is None:
         liked_count = { 'count': 0 }
     editable = (rel is not None) or session['usertype'] == 'manager'
+    joined = rel is not None
 
-    return render_template('/band/details.html', band=band, members=members, concerts=concerts, liked_count=liked_count, editable=editable)
+    return render_template('/band/details.html', band=band, members=members, concerts=concerts, liked_count=liked_count, editable=editable, joined=joined)
+
+@band_bp.route('/band/<int:id>/join', methods=['GET', 'POST'])
+def join(id: int):
+    band = invoke(f'select * from Band where BandId = {id}').fetchone()
+    if band is None:
+        abort(404)
+
+    rel = invoke(f'select * from _UserToBand where UserID = {session['userid']} and BandID = {id}').fetchone()
+
+    if request.method == 'GET':
+        joined = rel is not None
+        return render_template('/band/join.html', band=band, joined=joined)
+
+    if rel is None:
+        invoke(f'insert into _UserToBand(UserID, BandID) values ({session['userid']}, {id})')
+        return redirect(url_for('band.details', id=id))
+    else:
+        invoke(f'delete from _UserToBand where UserID = {session['userid']} and BandID = {id}')
+        return redirect(url_for('band.index'))
+
 
 @band_bp.route('/band/<int:id>/like', methods=['POST'])
 def like(id: int):

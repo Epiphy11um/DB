@@ -32,13 +32,21 @@
     </div>
 
     <p>共 {{ liked_count.count }} 位喜欢 {{ band.BandName }} 的用户</p>
-    
+
     {% if editable %}
     <a class="ui primary button" href="{{ url_for('band.edit', id=band.BandID) }}">
         <i class="icon edit"></i>
         编辑信息
     </a>
     {% endif %}
+    
+    <a class="ui primary button" href="{{ url_for('band.join', id=band.BandID) }}">
+        {% if joined %}
+        退出乐队
+        {% else %}
+        加入乐队
+        {% endif %}
+    </a>
 
 </div>
 {% endblock %}
