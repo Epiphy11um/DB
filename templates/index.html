@@ -1,6 +1,6 @@
 {% extends '_base.html' %}
 
-{% block title %}乐队列表{% endblock %}
+{% block title %}首页{% endblock %}
 
 {% block body %}
 <div class="ui inverted segment">
@@ -9,110 +9,182 @@
 <div class="ui centered grid">
     <div class="row">
         <div class="eight wide column">
-            <h1 class="ui header">喜欢的乐队</h1>
-            <table class="ui celled table">
-                <thead>
-                    <tr>
-                        <th>乐队名</th>
-                        <th>乐队简介</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for band in liked_bands %}
-                    <tr>
-                        <td><a href="{{ url_for('band.details', id=band.BandID) }}">{{ band.BandName }}</a></td>
-                        <td>{{ band.BandDescription }}</td>
-                        <td>
-                            <button class="ui icon button like-button" data-item-type="band"
-                                data-item-id="{{ band.BandID }}" data-liked="1">
-                                <i class="heart icon"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td>暂无</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="ui accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    喜欢的乐队
+                </div>
+                <div class="content">
+
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>乐队名</th>
+                                <th>乐队简介</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for band in liked_bands %}
+                            <tr>
+                                <td><a href="{{ url_for('band.details', id=band.BandID) }}">{{ band.BandName }}</a></td>
+                                <td>{{ band.BandDescription }}</td>
+                                <td>
+                                    <button class="ui icon button like-button" data-item-type="band"
+                                        data-item-id="{{ band.BandID }}" data-liked="1">
+                                        <i class="heart icon"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>暂无</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="eight wide column">
-            <h1 class="ui header">喜欢的专辑</h1>
+            <div class="ui accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    喜欢的专辑
+                </div>
+                <div class="content">
 
-            <table class="ui celled table">
-                <thead>
-                    <tr>
-                        <th>专辑名</th>
-                        <th>乐队</th>
-                        <th>曲目数</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for album in liked_albums %}
-                    <tr>
-                        <td><a href="{{ url_for('album.details', id=album.AlbumID) }}">{{ album.AlbumName }}</a></td>
-                        <td>{{ album.BandName }}</td>
-                        <td>{{ album.count }}</td>
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>专辑名</th>
+                                <th>乐队</th>
+                                <th>曲目数</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for album in liked_albums %}
+                            <tr>
+                                <td><a href="{{ url_for('album.details', id=album.AlbumID) }}">{{ album.AlbumName }}</a>
+                                </td>
+                                <td>{{ album.BandName }}</td>
+                                <td>{{ album.count }}</td>
 
-                        <td>
-                            <button class="ui icon button like-button" data-item-type="album"
-                                data-item-id="{{ album.AlbumID }}" data-liked="1">
-                                <i class="heart icon"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td>暂无</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                <td>
+                                    <button class="ui icon button like-button" data-item-type="album"
+                                        data-item-id="{{ album.AlbumID }}" data-liked="1">
+                                        <i class="heart icon"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>暂无</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="eight wide column">
-            <h1 class="ui header">喜欢的歌曲</h1>
-            <table class="ui celled table">
-                <thead>
-                    <tr>
-                        <th>曲名</th>
-                        <th>原作</th>
-                        <th>风格</th>
-                        <th>所属专辑</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for song in liked_songs %}
-                    <tr>
-                        <td><a href="{{ url_for('song.details', id=song.SongID) }}">{{ song.SongName }}</a></td>
-                        <td>{{ song.OriginalAuthor }}</td>
-                        <td>{{ song.Genre }}</td>
-                        <td><a href="{{ url_for('album.details', id=song.AlbumID) }}">{{ song.AlbumName }}</a></td>
+            <div class="ui accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    喜欢的歌曲
+                </div>
+                <div class="content">
 
-                        <td>
-                            <button class="ui icon button like-button" data-item-type="song"
-                                data-item-id="{{ song.SongID }}" data-liked="1">
-                                <i class="heart icon"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>曲名</th>
+                                <th>原作</th>
+                                <th>风格</th>
+                                <th>所属专辑</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for song in liked_songs %}
+                            <tr>
+                                <td><a href="{{ url_for('song.details', id=song.SongID) }}">{{ song.SongName }}</a></td>
+                                <td>{{ song.OriginalAuthor }}</td>
+                                <td>{{ song.Genre }}</td>
+                                <td><a href="{{ url_for('album.details', id=song.AlbumID) }}">{{ song.AlbumName }}</a>
+                                </td>
+
+                                <td>
+                                    <button class="ui icon button like-button" data-item-type="song"
+                                        data-item-id="{{ song.SongID }}" data-liked="1">
+                                        <i class="heart icon"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>暂无</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="eight wide column">
+            <div class="ui accordion">
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    参加的演出
+                </div>
+                <div class="content">
+
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>演出名</th>
+                                <th>演出时间</th>
+                                <th>参演乐队</th>
+                                <th>演出地点</th>
+                                <th>票号</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in participation %}
+                            <tr>
+                                <td><a href="{{ url_for('concert.details', id=item.ConcertID) }}">{{ item.ConcertName
+                                        }}</a>
+                                </td>
+                                <td>{{ item.ConcertDate }}</td>
+                                <td>{{ item.BandName }}</td>
+                                <td>{{ item.Location }}</td>
+                                <td>{{ item.TicketNumber }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>暂无</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    $('.ui.accordion').accordion();
     $('.like-button').click(function () {
         $(this).addClass('disabled');
         const itemType = $(this).data('item-type');

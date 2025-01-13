@@ -9,11 +9,22 @@ def index():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
     
-    liked_albums = invoke(f'''select * from Album where exists (
-                          select * from LikeAlbum where Album.AlbumID = LikeAlbum.AlbumID and UserID = {session['userid']})''')
-    liked_songs = invoke(f'''select * from Song where exists (
+    liked_albums = invoke(f'''select (
+                            select count(*) from Song where Song.AlbumID = Album.AlbumID 
+                          ) as `count`, Album.*, Band.* from Album 
+                          inner join Band on Album.BandID = Band.BandID
+                          where exists (
+                            select * from LikeAlbum where Album.AlbumID = LikeAlbum.AlbumID and UserID = {session['userid']}
+                          )''')
+    liked_songs = invoke(f'''select * from Song
+                         inner join Album on Album.AlbumID = Song.AlbumID
+                         where exists (
                           select * from LikeSong where Song.SongID = LikeSong.SongID and UserID = {session['userid']})''')
-    liked_bands = invoke(f'''select * from Band where exists (
+    liked_bands = invoke(f'''select * from Band
+                          where exists (
                           select * from LikeBand where Band.BandID = LikeBand.BandID and UserID = {session['userid']})''')
-
-    return render_template('index.html', liked_albums=liked_albums, liked_songs=liked_songs, liked_bands=liked_bands)
+    part = invoke(f'''select * from Concert
+                  inner join Participation on Participation.ConcertID = Concert.ConcertID
+                  inner join Band on Concert.BandID = Band.BandID
+                  where UserID = {session['userid']}''')
+    return render_template('index.html', liked_albums=liked_albums, liked_songs=liked_songs, liked_bands=liked_bands, participation=part)
