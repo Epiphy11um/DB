@@ -7,12 +7,15 @@
     乐队列表
 </h1>
 
+{% if session.usertype != 'fan' %}
 <div style="display: flex; flex-direction: row; justify-content: flex-end;">
     <a class="ui primary button" href="{{ url_for('band.new') }}">
         <i class="icon plus"></i>
         创建乐队
     </a>
 </div>
+{% endif %}
+
 <table class="ui celled table">
     <thead>
         <tr>

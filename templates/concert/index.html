@@ -8,12 +8,14 @@
     演出列表
 </h1>
 
+{% if session.usertype != 'fan' %}
 <div style="display: flex; flex-direction: row; justify-content: flex-end;">
     <a class="ui primary button" href="{{ url_for('concert.new') }}">
         <i class="icon plus"></i>
         新建演出
     </a>
 </div>
+{% endif %}
 
 <table class="ui celled table">
     <thead>

@@ -28,27 +28,6 @@
         {% endfor %}
     </div>
 
-    <p>
-        评分：
-        {% if rating is none %}
-        <i>null</i>
-        {% else %}
-        {{ rating.rating }}, 共 {{ rating.count }} 人评分
-        {% endif %}
-    </p>
-
-    {% if user_review is none %}
-    <a class="ui primary button" href="{{ url_for('review.new', song_id=song.SongID) }}">
-        <i class="edit icon"></i>
-        撰写乐评
-    </a>
-    {% else %}
-    <p>您的评价：{{ user_review.Rating }} {{ user_review.Comment }}</p>
-    {% endif %}
-
-    <a class="ui primary button" href="{{ url_for('review.list', song_id=song.SongID) }}">
-        所有乐评
-    </a>
     {% if editable %}
     <a class="ui primary button" href="{{ url_for('song.edit', id=song.SongID) }}">
         <i class="edit icon"></i>

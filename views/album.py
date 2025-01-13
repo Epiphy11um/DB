@@ -57,7 +57,10 @@ def details(id: int):
     if album is None:
         abort(404)
 
+    rating = invoke(f'select AlbumID, avg(Rating) as rating, count(*) as `count` from Review group by AlbumID having AlbumID = {id}').fetchone()
+
     songs = invoke(f'select * from Song where AlbumID = {id} order by `Order` asc')
+    user_review = invoke(f'select * from Review where AlbumID = {id} and UserID = {session['userid']}').fetchone() 
     liked_users = invoke(f'''select * from User user where exists (
                          select * from LikeAlbum where UserID = user.UserID and AlbumID = {id}
                          )''').fetchall()
@@ -65,7 +68,7 @@ def details(id: int):
     
     editable = rel is not None or session['usertype'] == 'manager'
 
-    return render_template('/album/details.html', album=album, songs=songs, liked_users=liked_users, editable=editable)
+    return render_template('/album/details.html', album=album, songs=songs, rating=rating, user_review=user_review, liked_users=liked_users, editable=editable)
 
 @album_bp.route('/album/<int:id>/like', methods=['POST'])
 def like(id: int):

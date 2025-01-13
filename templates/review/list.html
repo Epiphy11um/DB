@@ -5,11 +5,11 @@
 {% block body %}
 
 <h1 class="ui centered header">
-    {{ song.SongName }} 的乐评列表
+    {{ album.AlbumName }} 的乐评列表
 </h1>
 
 <div style="display: flex; flex-direction: row; justify-content: flex-end;">
-    <a class="ui primary button" href="{{ url_for('review.new', song_id=song.SongID) }}">
+    <a class="ui primary button" href="{{ url_for('review.new', song_id=album.AlbumID) }}">
         <i class="icon plus"></i>
         撰写乐评
     </a>

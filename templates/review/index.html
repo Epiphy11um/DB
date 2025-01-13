@@ -19,8 +19,8 @@
     <tbody>
         {% for item in reviews %}
         <tr>
-            <td><a href="{{ url_for('song.details', id=item.SongID) }}">{{ item.SongName }}</a></td>
-            <td><a href="{{ url_for('review.details', song_id=item.SongID, user_id=item.UserID) }}">{{ item.Rating }}</a></td>
+            <td><a href="{{ url_for('album.details', id=item.AlbumID) }}">{{ item.SongName }}</a></td>
+            <td><a href="{{ url_for('review.details', song_id=item.AlbumID, user_id=item.UserID) }}">{{ item.Rating }}</a></td>
             <td>{{ item.UserName }}</td>
         </tr>
         {% endfor %}

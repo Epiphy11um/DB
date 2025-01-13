@@ -59,12 +59,12 @@ CREATE TABLE Song (
 
 -- 乐评表
 CREATE TABLE Review (
-    SongID INT, -- 外键：关联歌曲表
+    AlbumID INT, -- 外键：关联歌曲表
     UserID INT, -- 外键：关联歌迷表
     Rating INT, -- 评分
     Comment TEXT, -- 评论
-    PRIMARY KEY (SongID, UserID), -- 联合主键：歌曲ID和歌迷ID的组合
-    FOREIGN KEY (SongID) REFERENCES Song(SongID), -- 外键约束，引用歌曲表的SongID
+    PRIMARY KEY (AlbumID, UserID), -- 联合主键：歌曲ID和歌迷ID的组合
+    FOREIGN KEY (AlbumID) REFERENCES Album(AlbumID), -- 外键约束，引用歌曲表的SongID
     FOREIGN KEY (UserID) REFERENCES User(UserID) -- 外键约束，引用歌迷表的UserID
 );
 

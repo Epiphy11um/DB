@@ -23,8 +23,6 @@ def details(id: int):
     if song is None:
         abort(404)
 
-    rating = invoke(f'select SongID, avg(Rating) as rating, count(*) as `count` from Review group by SongID having SongID = {id}').fetchone()
-    user_review = invoke(f'select * from Review where SongID = {id} and UserID = {session['userid']}').fetchone() 
     liked_users = invoke(f'''select * from User user where exists (
                          select * from LikeSong where UserID = user.UserID and SongID = {id}
                          )''').fetchall()
@@ -33,7 +31,7 @@ def details(id: int):
 
     editable = rel is not None or session['usertype'] == 'manager'
 
-    return render_template('/song/details.html', song=song, liked_users=liked_users, rating=rating, user_review=user_review, editable=editable)
+    return render_template('/song/details.html', song=song, liked_users=liked_users, editable=editable)
 
 @song_bp.route('/song/<int:id>/edit', methods=['GET', 'POST'])
 def edit(id: int):
